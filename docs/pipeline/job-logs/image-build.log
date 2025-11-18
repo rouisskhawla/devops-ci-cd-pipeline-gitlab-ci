@@ -1,0 +1,204 @@
+[0KRunning with gitlab-runner 18.5.0 (bda84871)[0;m
+[0K  on docker-runner G8FGc7fEk, system ID: s_0c0f68219893[0;m
+section_start:1763410036:prepare_executor
+[0K[0K[36;1mPreparing the "docker" executor[0;m[0;m
+[0KUsing Docker executor with image docker:27-cli ...[0;m
+[0KStarting service docker:27-dind...[0;m
+[0KUsing effective pull policy of [always] for container docker:27-dind[0;m
+[0KPulling docker image docker:27-dind ...[0;m
+[0KUsing docker image sha256:d2dc198f7d839eae26b5a9cb0e7cdc4e2c97d9cb4ea66dbeb0a4c0c7f0b165f8 for docker:27-dind with digest docker@sha256:aa3df78ecf320f5fafdce71c659f1629e96e9de0968305fe1de670e0ca9176ce ...[0;m
+[0KWaiting for services to be up and running (timeout 30 seconds)...[0;m
+[0KUsing effective pull policy of [always] for container docker:27-cli[0;m
+[0KPulling docker image docker:27-cli ...[0;m
+[0KUsing docker image sha256:2e7c23dd1c3d20e207ea0fc3677430c643501bd66bbc1c51b833cccbf5fbcae3 for docker:27-cli with digest docker@sha256:851f91d241214e7c6db86513b270d58776379aacc5eb9c4a87e5b47115e3065c ...[0;m
+section_end:1763410047:prepare_executor
+[0Ksection_start:1763410047:prepare_script
+[0K[0K[36;1mPreparing environment[0;m[0;m
+[0KUsing effective pull policy of [always] for container sha256:6142dc9b8647b7525bec4937f64efab2d0abf9eea4fbcf061177bc504cd45259[0;m
+Running on runner-g8fgc7fek-project-75992246-concurrent-0 via khawla...
+section_end:1763410048:prepare_script
+[0Ksection_start:1763410048:get_sources
+[0K[0K[36;1mGetting source from Git repository[0;m[0;m
+[32;1mGitaly correlation ID: 9a01da72d1df2115-MRS[0;m
+[32;1mFetching changes with git depth set to 20...[0;m
+Reinitialized existing Git repository in /builds/rouis.khawla09/devops-ci-cd-pipeline-gitlab-ci/.git/
+[32;1mCreated fresh repository.[0;m
+[32;1mChecking out 42ed4423 as detached HEAD (ref is main)...[0;m
+Removing target/
+
+[32;1mSkipping Git submodules setup[0;m
+section_end:1763410051:get_sources
+[0Ksection_start:1763410051:download_artifacts
+[0K[0K[36;1mDownloading artifacts[0;m[0;m
+[32;1mDownloading artifacts for maven-package (12117321999)...[0;m
+Downloading artifacts from coordinator... ok      [0;m  correlation_id[0;m=b8031ba8f9d44913acf826239611b056 host[0;m=cdn.artifacts.gitlab-static.net id[0;m=12117321999 responseStatus[0;m=200 OK token[0;m=6b_f6Pab-
+section_end:1763410093:download_artifacts
+[0Ksection_start:1763410093:step_script
+[0K[0K[36;1mExecuting "step_script" stage of the job script[0;m[0;m
+[0KUsing effective pull policy of [always] for container docker:27-cli[0;m
+[0KUsing docker image sha256:2e7c23dd1c3d20e207ea0fc3677430c643501bd66bbc1c51b833cccbf5fbcae3 for docker:27-cli with digest docker@sha256:851f91d241214e7c6db86513b270d58776379aacc5eb9c4a87e5b47115e3065c ...[0;m
+[32;1m$ docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"[0;m
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credential-stores
+
+Login Succeeded
+[32;1m$ docker build -t "$CI_REGISTRY_IMAGE" .[0;m
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 173B done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/eclipse-temurin:17-jdk-jammy
+#2 DONE 2.2s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/2] FROM docker.io/library/eclipse-temurin:17-jdk-jammy@sha256:3b43b9984c60dbf042f0d921850ec1ddfb062ac1741e67f2b4904e336d84e4f0
+#4 resolve docker.io/library/eclipse-temurin:17-jdk-jammy@sha256:3b43b9984c60dbf042f0d921850ec1ddfb062ac1741e67f2b4904e336d84e4f0 0.1s done
+#4 sha256:3b43b9984c60dbf042f0d921850ec1ddfb062ac1741e67f2b4904e336d84e4f0 6.55kB / 6.55kB done
+#4 sha256:4ae1a52d01dcf7dfa0ea6a98092d6f9f537adc1d14995671bdf4487985e3974c 1.94kB / 1.94kB done
+#4 sha256:5fa3725ef065e9458198dc59196e80e1ddb3075b06197ed45dced3bef166a971 6.21kB / 6.21kB done
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 0B / 29.54MB 0.1s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 0B / 20.70MB 0.1s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 0B / 144.85MB 0.1s
+#4 ...
+
+#5 [internal] load build context
+#5 transferring context: 41.23MB 0.8s done
+#5 DONE 0.8s
+
+#4 [1/2] FROM docker.io/library/eclipse-temurin:17-jdk-jammy@sha256:3b43b9984c60dbf042f0d921850ec1ddfb062ac1741e67f2b4904e336d84e4f0
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 1.05MB / 20.70MB 4.7s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 2.10MB / 29.54MB 5.1s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 1.05MB / 144.85MB 5.2s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 2.10MB / 20.70MB 7.5s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 3.15MB / 20.70MB 9.8s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 3.15MB / 29.54MB 10.1s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 3.15MB / 144.85MB 10.3s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 4.19MB / 20.70MB 12.2s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 5.24MB / 29.54MB 15.1s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 5.24MB / 20.70MB 15.3s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 4.19MB / 144.85MB 15.3s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 6.29MB / 20.70MB 18.2s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 6.29MB / 29.54MB 20.1s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 6.29MB / 144.85MB 20.3s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 7.34MB / 20.70MB 21.6s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 8.39MB / 20.70MB 24.2s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 8.39MB / 29.54MB 24.4s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 7.34MB / 144.85MB 25.3s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 9.44MB / 20.70MB 27.1s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 10.49MB / 29.54MB 29.5s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 10.49MB / 20.70MB 29.9s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 9.44MB / 144.85MB 30.4s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 11.53MB / 20.70MB 33.2s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 11.53MB / 29.54MB 34.5s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 10.49MB / 144.85MB 35.4s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 12.58MB / 20.70MB 35.7s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 13.63MB / 29.54MB 38.3s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 13.63MB / 20.70MB 39.5s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 12.58MB / 144.85MB 40.4s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 14.68MB / 20.70MB 41.9s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 14.68MB / 29.54MB 43.3s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 15.73MB / 20.70MB 45.0s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 13.63MB / 144.85MB 45.5s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 16.78MB / 29.54MB 47.1s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 16.78MB / 20.70MB 47.6s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 15.73MB / 144.85MB 50.5s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 17.83MB / 20.70MB 51.4s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 17.83MB / 29.54MB 52.1s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 18.87MB / 20.70MB 53.9s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 17.83MB / 144.85MB 55.7s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 19.92MB / 29.54MB 56.1s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 19.92MB / 20.70MB 56.5s
+#4 sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 20.70MB / 20.70MB 59.0s done
+#4 sha256:837687f10a1f82571090fcd9ad0528fcc7b5f43242cc1c6b76f6afefdff0a2d6 0B / 158B 59.1s
+#4 sha256:837687f10a1f82571090fcd9ad0528fcc7b5f43242cc1c6b76f6afefdff0a2d6 158B / 158B 59.4s done
+#4 sha256:2581bc3ff3b6d9f257d5b3f64a3d86de4713b0ffefbb3189693db6e3785a9e79 0B / 2.28kB 59.5s
+#4 sha256:2581bc3ff3b6d9f257d5b3f64a3d86de4713b0ffefbb3189693db6e3785a9e79 2.28kB / 2.28kB 59.9s done
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 19.92MB / 144.85MB 60.9s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 22.02MB / 29.54MB 61.3s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 22.02MB / 144.85MB 66.0s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 23.07MB / 29.54MB 66.4s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 25.17MB / 29.54MB 70.4s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 24.12MB / 144.85MB 71.1s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 27.26MB / 29.54MB 74.5s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 26.21MB / 144.85MB 76.1s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 29.36MB / 29.54MB 79.7s
+#4 sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 29.54MB / 29.54MB 79.8s done
+#4 extracting sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 27.26MB / 144.85MB 81.2s
+#4 extracting sha256:7e49dc6156b0b532730614d83a65ae5e7ce61e966b0498703d333b4d03505e4f 3.3s done
+#4 extracting sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 30.41MB / 144.85MB 86.3s
+#4 extracting sha256:e106dd8ed6ad2e6cce7b8a0e8ec5a228fd591f46f34a5c649b68ec66090c4e67 3.3s done
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 33.55MB / 144.85MB 91.3s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 38.80MB / 144.85MB 96.5s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 42.99MB / 144.85MB 101.6s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 47.19MB / 144.85MB 106.7s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 52.43MB / 144.85MB 111.7s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 57.67MB / 144.85MB 116.9s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 62.91MB / 144.85MB 122.0s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 65.01MB / 144.85MB 127.0s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 67.11MB / 144.85MB 132.1s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 71.30MB / 144.85MB 137.2s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 75.50MB / 144.85MB 142.3s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 80.74MB / 144.85MB 147.3s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 82.84MB / 144.85MB 152.3s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 84.93MB / 144.85MB 157.5s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 88.08MB / 144.85MB 162.7s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 92.27MB / 144.85MB 167.7s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 96.47MB / 144.85MB 172.8s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 102.76MB / 144.85MB 177.8s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 105.91MB / 144.85MB 183.0s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 110.10MB / 144.85MB 188.0s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 114.29MB / 144.85MB 193.2s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 118.49MB / 144.85MB 198.3s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 121.63MB / 144.85MB 203.4s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 125.83MB / 144.85MB 208.4s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 132.12MB / 144.85MB 213.6s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 137.36MB / 144.85MB 218.6s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 141.56MB / 144.85MB 223.8s
+#4 sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 144.85MB / 144.85MB 226.1s done
+#4 extracting sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877
+#4 extracting sha256:f28a3134bb3a9ba57065c495a66645b15abc9c0d5239598e0efa785944e1d877 4.0s done
+#4 extracting sha256:837687f10a1f82571090fcd9ad0528fcc7b5f43242cc1c6b76f6afefdff0a2d6
+#4 extracting sha256:837687f10a1f82571090fcd9ad0528fcc7b5f43242cc1c6b76f6afefdff0a2d6 done
+#4 extracting sha256:2581bc3ff3b6d9f257d5b3f64a3d86de4713b0ffefbb3189693db6e3785a9e79 done
+#4 DONE 230.7s
+
+#6 [2/2] COPY target/*.jar app.jar
+#6 DONE 0.4s
+
+#7 exporting to image
+#7 exporting layers
+#7 exporting layers 0.2s done
+#7 writing image sha256:03230d592be86bcaaa957b875d02ba80ea4346256570b27e72cf768715eb7e7e done
+#7 naming to registry.gitlab.com/rouis.khawla09/devops-ci-cd-pipeline-gitlab-ci done
+#7 DONE 0.2s
+[32;1m$ docker push "$CI_REGISTRY_IMAGE"[0;m
+Using default tag: latest
+The push refers to repository [registry.gitlab.com/rouis.khawla09/devops-ci-cd-pipeline-gitlab-ci]
+0e558339b846: Preparing
+d1d6e1a741f5: Preparing
+ed45db2cd56b: Preparing
+23408c2e9b9e: Preparing
+b160c82ed31f: Preparing
+73974f74b436: Preparing
+73974f74b436: Waiting
+b160c82ed31f: Layer already exists
+23408c2e9b9e: Layer already exists
+ed45db2cd56b: Layer already exists
+d1d6e1a741f5: Layer already exists
+73974f74b436: Pushed
+0e558339b846: Pushed
+latest: digest: sha256:aaadaa795983120b56dffb3466d42d2e74d6c8d5e2f0d39f91cca90326b1a65d size: 1581
+section_end:1763411080:step_script
+[0Ksection_start:1763411080:cleanup_file_variables
+[0K[0K[36;1mCleaning up project directory and file based variables[0;m[0;m
+section_end:1763411080:cleanup_file_variables
+[0K[32;1mJob succeeded[0;m

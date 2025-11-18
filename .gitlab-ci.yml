@@ -1,0 +1,93 @@
+image: docker:27
+
+stages:
+    - maven-test   
+    - sonarqube-check
+    - maven-package
+    - image-build
+    - deploy-staging
+
+maven-test:
+  stage: maven-test
+  tags:
+    - docker-runner
+  image: maven:3.9.6-eclipse-temurin-17
+  services:
+    - name: docker:27-dind
+      command: ["--tls=false"]
+  variables:
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_TLS_CERTDIR: ""
+    TESTCONTAINERS_RYUK_DISABLED: "true"
+  script:
+    - apt-get update
+    - apt-get install -y docker.io
+    - docker version
+    - mvn -B test
+
+sonarqube-check:
+  image: maven:3.9.6-eclipse-temurin-17
+  stage: sonarqube-check
+  tags:
+    - docker-runner
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - mvn -B verify sonar:sonar -Dmaven.test.skip=true -Dsonar.projectKey=rouis.khawla09_devops-ci-cd-pipeline-gitlab-ci_AZqIMFAQPZHqPAdin7AH
+  allow_failure: true
+  only:
+    - main
+
+maven-package:
+  stage: maven-package
+  tags:
+    - docker-runner
+  image: maven:3-openjdk-17
+  script: 
+  - "mvn clean package -Dmaven.test.skip=true -Dspring.profiles.active=ci"
+  artifacts:
+      paths:
+      - ./target/devops-ci-cd-pipeline-gitlab-ci-0.0.1-SNAPSHOT.jar
+
+image-build:
+  stage: image-build
+  tags:
+    - docker-runner
+  image: docker:27-cli
+  services:
+    - name: docker:27-dind
+      command: ["--tls=false"]
+  variables:
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+  script:
+    - docker build -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
+  when: manual
+
+deploy-staging:
+  stage: deploy-staging
+  tags:
+    - shell-runner
+  before_script:
+    - 'which ssh-agent || ( apt-get update && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - cat "$SSH_PRIVATE_KEY_STAGING" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP ls
+    - ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP mkdir -p devops-ci-cd-gitlab-ci
+    - scp -P $STAGING_VM_PORT -o StrictHostKeyChecking=no docker-compose.yml $STAGING_VM_USER@$STAGING_VM_IP:~/devops-ci-cd-gitlab-ci
+    - ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP docker-compose -f devops-ci-cd-gitlab-ci/docker-compose.yml down
+    - ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP docker pull $CI_REGISTRY_IMAGE
+    - ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP docker-compose -f devops-ci-cd-gitlab-ci/docker-compose.yml up -d
+  when: manual
+

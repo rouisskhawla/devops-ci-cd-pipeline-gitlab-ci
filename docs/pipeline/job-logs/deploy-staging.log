@@ -1,0 +1,96 @@
+[0KRunning with gitlab-runner 18.5.0 (bda84871)[0;m
+[0K  on WSL2 Runner nvZivvA6B, system ID: s_0c0f68219893[0;m
+section_start:1763411137:prepare_executor
+[0K[0K[36;1mPreparing the "shell" executor[0;m[0;m
+[0KUsing Shell (bash) executor...[0;m
+section_end:1763411137:prepare_executor
+[0Ksection_start:1763411137:prepare_script
+[0K[0K[36;1mPreparing environment[0;m[0;m
+Running on khawla...
+section_end:1763411137:prepare_script
+[0Ksection_start:1763411137:get_sources
+[0K[0K[36;1mGetting source from Git repository[0;m[0;m
+[32;1mGitaly correlation ID: 9a01f54e60d5cf28-IAD[0;m
+[32;1mFetching changes with git depth set to 20...[0;m
+Reinitialized existing Git repository in /home/gitlab-runner/builds/nvZivvA6B/0/rouis.khawla09/devops-ci-cd-pipeline-gitlab-ci/.git/
+[32;1mChecking out 42ed4423 as detached HEAD (ref is main)...[0;m
+Removing target/
+[32;1mSkipping Git submodules setup[0;m
+section_end:1763411138:get_sources
+[0Ksection_start:1763411138:download_artifacts
+[0K[0K[36;1mDownloading artifacts[0;m[0;m
+[32;1mDownloading artifacts for maven-package (12117321999)...[0;m
+Runtime platform                                  [0;m  arch[0;m=amd64 os[0;m=linux pid[0;m=125558 revision[0;m=bda84871 version[0;m=18.5.0
+Downloading artifacts from coordinator... ok      [0;m  correlation_id[0;m=c013ae7ab72f4361b49c10951926713c host[0;m=cdn.artifacts.gitlab-static.net id[0;m=12117321999 responseStatus[0;m=200 OK token[0;m=6b_GxLok-
+[0;33mWARNING: target/devops-ci-cd-pipeline-gitlab-ci-0.0.1-SNAPSHOT.jar: lchown target/devops-ci-cd-pipeline-gitlab-ci-0.0.1-SNAPSHOT.jar: operation not permitted (suppressing repeats)[0;m 
+section_end:1763411175:download_artifacts
+[0Ksection_start:1763411175:step_script
+[0K[0K[36;1mExecuting "step_script" stage of the job script[0;m[0;m
+[32;1m$ which ssh-agent || ( apt-get update && apt-get install openssh-client -y )[0;m
+/usr/bin/ssh-agent
+[32;1m$ eval $(ssh-agent -s)[0;m
+Agent pid 125606
+[32;1m$ cat "$SSH_PRIVATE_KEY_STAGING" | tr -d '\r' | ssh-add - > /dev/null[0;m
+Identity added: (stdin) (staging@staging-vm)
+[32;1m$ ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP ls[0;m
+Desktop
+devops-ci-cd-gitlab-ci
+devops-ci-cd-pipeline
+Documents
+Downloads
+Music
+Pictures
+Public
+snap
+Templates
+Videos
+[32;1m$ ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY[0;m
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+
+WARNING! Your credentials are stored unencrypted in '/home/staging/.docker/config.json'.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/go/credential-store/
+
+Login Succeeded
+[32;1m$ ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP mkdir -p devops-ci-cd-gitlab-ci[0;m
+[32;1m$ scp -P $STAGING_VM_PORT -o StrictHostKeyChecking=no docker-compose.yml $STAGING_VM_USER@$STAGING_VM_IP:~/devops-ci-cd-gitlab-ci[0;m
+[32;1m$ ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP docker-compose -f devops-ci-cd-gitlab-ci/docker-compose.yml down[0;m
+Stopping phpmyadmin ... 
+Stopping mysql      ... 
+Stopping phpmyadmin ... done
+Stopping mysql      ... done
+Removing phpmyadmin ... 
+Removing mysql      ... 
+Removing devops     ... 
+Removing mysql      ... done
+Removing devops     ... done
+Removing phpmyadmin ... done
+Removing network devops-ci-cd-gitlab-ci_default
+[32;1m$ ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP docker pull $CI_REGISTRY_IMAGE[0;m
+Using default tag: latest
+latest: Pulling from rouis.khawla09/devops-ci-cd-pipeline-gitlab-ci
+63e5bc7682b8: Already exists
+e106dd8ed6ad: Already exists
+f28a3134bb3a: Already exists
+837687f10a1f: Already exists
+2581bc3ff3b6: Already exists
+5f8cdd3f96a1: Pulling fs layer
+5f8cdd3f96a1: Verifying Checksum
+5f8cdd3f96a1: Download complete
+5f8cdd3f96a1: Pull complete
+Digest: sha256:aaadaa795983120b56dffb3466d42d2e74d6c8d5e2f0d39f91cca90326b1a65d
+Status: Downloaded newer image for registry.gitlab.com/rouis.khawla09/devops-ci-cd-pipeline-gitlab-ci:latest
+registry.gitlab.com/rouis.khawla09/devops-ci-cd-pipeline-gitlab-ci:latest
+[32;1m$ ssh -p $STAGING_VM_PORT -o StrictHostKeyChecking=no $STAGING_VM_USER@$STAGING_VM_IP docker-compose -f devops-ci-cd-gitlab-ci/docker-compose.yml up -d[0;m
+Creating network "devops-ci-cd-gitlab-ci_default" with the default driver
+Creating mysql ... 
+Creating devops ... 
+Creating mysql  ... done
+Creating phpmyadmin ... 
+Creating devops     ... done
+Creating phpmyadmin ... done
+section_end:1763411232:step_script
+[0Ksection_start:1763411232:cleanup_file_variables
+[0K[0K[36;1mCleaning up project directory and file based variables[0;m[0;m
+section_end:1763411232:cleanup_file_variables
+[0K[32;1mJob succeeded[0;m

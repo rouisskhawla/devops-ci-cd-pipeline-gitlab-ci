@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: spring
+      MYSQL_USER: devops
+      MYSQL_PASSWORD: devops
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - devops
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - "8081:80"
+    networks:
+      - devops
+    restart: always
+
+  devops-ci-cd-pipeline:
+    image: registry.gitlab.com/rouis.khawla09/devops-ci-cd-pipeline-gitlab-ci
+    container_name: devops
+    depends_on:
+      - mysql
+    ports:
+      - "8083:8083"
+    restart: always
+    networks:
+      - devops
+      
+networks:
+  devops:
+
+volumes:
+  mysql_data:
